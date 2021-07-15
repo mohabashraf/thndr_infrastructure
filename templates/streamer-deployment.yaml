@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: streamer
+  template:
+    metadata:
+      labels:
+        component: streamer
+    spec:
+      containers:
+        - name: streamer
+          image: thndr/streamer:0.2
+          env:
+            - name: MQTT_HOST
+              value: mqtt-cluster-ip-service
+            - name: MQTT_PORT
+              value: "1883"
+            - name: MQTT_TOPIC
+              value: thndr-trading
+

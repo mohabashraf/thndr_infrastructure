@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: vernemq
+  template:
+    metadata:
+      labels:
+        component: vernemq
+    spec:
+      containers:
+        - name: vernemq
+          image: erlio/docker-vernemq
+          ports:
+            - containerPort: 1883
+          env:
+            - name: DOCKER_VERNEMQ_ACCEPT_EULA
+              value: 'yes'
+            - name: DOCKER_VERNEMQ_ALLOW_ANONYMOUS
+              value: 'on'
+            - name: MQTT_TOPIC
+              value: thndr-trading
